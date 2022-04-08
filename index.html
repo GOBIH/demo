@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template</title>
+    <style>
+        html {min-height: 100%;}
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        </style>
+</head>
+<body>
+    <div id="form1">
+        <h3><u>Enter your details for your cv</u></h3>
+        <label for="firstName">FirstName</label>
+        <input type="text" name="name" id="firstName" placeholder="firstName">
+        <label for="lastName">LastName</label>
+        <input type="text" name="name" id="lastName" placeholder="lastName"><br>
+        <br>
+ 
+        <label for="city">City</label>
+        <input type="text" name="city" id="city" placeholder="e,g,new delhi">
+        <label for="country">Country</label>
+        <input type="text" name="country" id="country" placeholder="e,g,india">
+        <label for="pincode">Pincode</label>
+        <input type="text" name="pincode" id="pincode" placeholder="134465"><br>
+        <br>
+        <label for="phonenumber">phonenumber</label>
+        <input type="number" name="phonenumber" id="phoneNumber" placeholder="+91-498....">
+        <label for="email">email</label>
+        <input type="email" name="email" id="email" placeholder=".....@gmail.com">
+   
+    
+    
+        <h3>
+            Tell us about your Recent jobs
+        </h3>
+        <textarea name="recentjobs" id="recentJobs" cols="30" rows="10" placeholder="job title,employer,country,city"></textarea><br>
+        <br>
+        <label for="startdate">Startdate</label>
+        <input type="date" name="startdate" id="starDate">
+        <label for="enddate">enddate</label>
+        <input type="date" name="enddate" id="endDate">
+    
+    
+       <h3>Tell us about your Education
+        </h3>
+        <table id="educationInput">
+            <tr>
+                <th>Qualification</th>
+                <th>Institution</th>
+                <th>yearOfPassing</th>
+                <th>Percentage</th>
+            </tr>
+            <tr>
+                <td ><input type="text" name="qualifi[]"></td>
+                <td ><input type="text" name="insti[]"></td>
+                <td ><input type="number" name="year[]"></td>
+                <td ><input type="text" name="percent[]"></td>
+                <td><a href="javascript:void(0);" class="addEducation">Add</a></td>               
+            </tr>
+        </table>
+        
+
+        <h3>What Skills would you like to highlight</h3>
+        <textarea name="skills" id="skills" cols="30" rows="10"></textarea><br>
+        <br>
+       
+        <button onclick="generateResume()">submit</button>
+
+    </div>
+    <div id="Resume" style="display: none;">
+        <h1>Resume</h1>
+        <b id="name_value"></b>
+        <p id="city_value"></p>
+        <p id="country_value"></p>
+        <p id="pincode_value"></p>
+        <p id="phoneNumber_value"></p>
+        <p id="email_value"></p>
+        <p id="recentJobs_value"></p>
+        <p id="yearOfWorking_value"></p>
+        <p id="skills_value"></p>
+        <table>
+                <tr>
+                    <th>Qualification</th>
+                    <th>Institution</th>
+                    <th>yearOfPassing</th>
+                    <th>Percentage</th>
+                </tr>
+            <tbody id="generated">
+            </tbody>
+        </table>
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script>
+    function generateResume(){
+        
+        name_value = document.getElementById("firstName").value + "" + document.getElementById("lastName").value;
+        yearOfWorking_value = document.getElementById("starDate").value + "" + document.getElementById("endDate").value;
+        city_value = document.getElementById("city").value;
+        country_value = document.getElementById("country").value;
+        pincode_value = document.getElementById("pincode").value;
+        phoneNumber_value = document.getElementById("phoneNumber").value;
+        email_value = document.getElementById("email").value;
+        recentJobs_value = document.getElementById("recentJobs").value;
+        skills_value = document.getElementById("skills").value;
+        document.getElementById("name_value").innerHTML = name_value
+        document.getElementById("city_value").innerHTML = city_value
+        document.getElementById("country_value").innerHTML = country_value
+        document.getElementById("pincode_value").innerHTML = pincode_value
+        document.getElementById("phoneNumber_value").innerHTML = phoneNumber_value
+        document.getElementById("email_value").innerHTML = email_value
+        document.getElementById("recentJobs_value").innerHTML = recentJobs_value
+        document.getElementById("yearOfWorking_value").innerHTML = yearOfWorking_value
+        document.getElementById("skills_value").innerHTML = skills_value
+        document.getElementById("form1").style.display = "none";
+        document.getElementById("Resume").style.display = "block"; 
+        var qualifi = $("input[name='qualifi[]']").map(function(){return $(this).val();}).get();
+         var insti = $("input[name='insti[]']").map(function(){return $(this).val();}).get();
+         var year = $("input[name='year[]']").map(function(){return $(this).val();}).get();
+         var percent = $("input[name='percent[]']").map(function(){return $(this).val();}).get();
+         let output = ""
+         for (let x = 0; x < qualifi.length; x++) {
+             const element = qualifi[x];
+             output += "<tr><td>"+qualifi[x]+"</td><td>"+insti[x]+"</td><td>"+year[x]+"</td><td>"+percent[x]+"</td></tr>";  
+         };
+         $(generated).append(output);
+
+    }
+
+
+   $(document).ready(function(){
+       $(".addEducation").click(function(){
+           $("#educationInput").append('<tr><td ><input type="text" name="qualifi[]"></td><td ><input type="text" name="insti[]"></td> <td ><input type="number" name="year[]"></td> <td ><input type="text" name="percent[]"></td> <td><a href="javascript:void(0);"class="removeEducation">Remove</a></td></tr>');
+       });
+       $("#educationInput").on('click','.removeEducation',function(){
+           $(this).parent().parent().remove();
+       });
+   })
+</script>
+
+
+</body>
+</html>
