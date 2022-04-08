@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="div">
+        <input type="hidden" id="temp" value="0">
+        <div class="star_rating">
+            <button class="star" id="nat1" value="1">&#9734;</button>
+            <button class="star" id="nat2" value="2">&#9734;</button>
+            <button class="star" id="nat3" value="3">&#9734;</button>
+            <button class="star" id="nat4" value="4">&#9734;</button>
+            <button class="star" id="nat5" value="5">&#9734;</button>
+            <input type="text" name="skills" id="skillsInput">
+            <span><a href="#" class="addSkills">Add</a></span>
+        </div>
+    </div>
+    <button onclick="generateResume()">submit</button>
+
+    <div id="generated">
+     
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+    $(document).ready(function(){
+       $(".addSkills").click(function(){
+            className = "star"+(parseInt($("#temp").val())+1);
+            $("#div").append('<div class="star_rating"><button class="'+className+'">&#9734;</button><button class="'+className+'">&#9734;</button><button class="'+className+'">&#9734;</button><button class="'+className+'">&#9734;</button><button class="'+className+'">&#9734;</button><input type="text" name="skills" id="skillsInput"><span><a href="javascript:void(0);" class="removeSkills">Remove</a></span></div>');
+            $("#temp").val((parseInt($("#temp").val())+1));
+            test("."+className);
+        });
+       $("body").on('click','.removeSkills',function(){
+           $(this).parent().parent().remove();
+       });
+   })
+   test('.star');
+    function test(className){
+        const allStars = document.querySelectorAll(className)
+        allStars.forEach( (star,i) =>{
+            star.onclick = function(){
+                let current_star_level = i+1;
+                allStars.forEach( (star,j) =>{
+                    if (current_star_level >= j+1) {
+                        star.innerHTML = '&#9733'
+                    } else{
+                        star.innerHTML = '&#9734'
+                    }
+                })
+            }
+
+        })
+    }
+    function generateResume(){
+            var nat1 = $("input[name='nat1']").map(function(){return $(this).val();}).get();
+            var nat2 = $("input[name='nat2']").map(function(){return $(this).val();}).get();
+            var nat3 = $("input[name='nat3']").map(function(){return $(this).val();}).get();
+            var nat4 = $("input[name='nat4']").map(function(){return $(this).val();}).get();
+            var nat5 = $("input[name='nat5']").map(function(){return $(this).val();}).get();
+            var skills = $("input[name='skills']").map(function(){return $(this).val();}).get();
+            let output = ""
+                for (let x = 0; x < nat1.length; x++) {
+                    const element = nat1[x];
+                    output += "<div>"+nat1+","+nat2+","+nat3+","+nat4+","+nat5+","+skills+"</div>";  
+                };
+                console.log("i am in");
+                $("#generated").append(output);
+            }
+    </script>
+</body>
+</html>
